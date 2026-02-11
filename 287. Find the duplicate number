@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+
+        do{
+            slow = nums[slow]; // ek baar
+            fast = nums[nums[fast]]; // do baar
+        }while(slow!=fast); //cycle detection
+
+        //finding that duplicate
+        fast = nums[0]; // initialisation fast to nums[0] and slow remains where it is. Then, move both by unit distance and where they meet is the intersection
+        while(fast!=slow){
+            slow=nums[slow];
+            fast= nums[fast];
+        }
+        return fast;
+    }
+};
