@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int longestSubarray(vector<int>& arr, int k) {
+        unordered_map<int,int>preSumMap;
+        int maxLen=0;
+        int n=arr.size();
+        int sum=0;
+        
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+            if(sum==k)  maxLen = max(maxLen,i+1);
+            int rem = sum-k;
+            //finding rem in map
+            if(preSumMap.find(rem)!=preSumMap.end()){
+                int len=i-preSumMap[rem];
+                maxLen=max(maxLen,len);
+            }
+            //add the value in map
+            if(preSumMap.find(sum)==preSumMap.end()){
+                preSumMap[sum]=i;
+            }
+        }
+        return maxLen;
+    }
+};
