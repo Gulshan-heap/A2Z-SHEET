@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> jobSequencing(vector<int>& deadline, vector<int>& profit) {
+        
+        int n = deadline.size();
+        
+        // Step 1: Create vector of pairs {profit, deadline}
+        vector<pair<int,int>> jobs;
+        for(int i = 0; i < n; i++) {
+            jobs.push_back({profit[i], deadline[i]});
+        }
+        
+        // Step 2: Sort jobs in descending order of profit
+        sort(jobs.begin(), jobs.end(), greater<>());
+        
+        // Step 3: Find maximum deadline
+        int maxDeadline = *max_element(deadline.begin(), deadline.end());
+        
+        // Step 4: Create slots array (0 = empty)
+        vector<int> slot(maxDeadline + 1, -1);
+        
+        int countJobs = 0;
+        int totalProfit = 0;
+        
+        // Step 5: Try to place each job
+        for(int i = 0; i < n; i++) {
+            int d = jobs[i].second;
+            
+            // Try to fill latest free slot before deadline
+            for(int j = d; j > 0; j--) {
+                if(slot[j] == -1) {
+                    slot[j] = i;   // mark slot filled
+                    countJobs++;
+                    totalProfit += jobs[i].first;
+                    break;
+                }
+            }
+        }
+        
+        return {countJobs, totalProfit};
+    }
+};
