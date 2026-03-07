@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int minPlatform(vector<int>& arr, vector<int>& dep) {
+        sort(arr.begin(),arr.end());
+        sort(dep.begin(),dep.end());
+        
+        int i=0;
+        int n = arr.size();
+        int j=0;
+        int platform=0;
+        int maxPlatforms = 0;
+        
+        while(i<n && j<n){
+            if(arr[i]<=dep[j]){ // train will arrive
+                platform++;
+                maxPlatforms = max(maxPlatforms,platform);
+                i++;
+            }
+            else{ // train will depart from station
+                platform--;
+                j++;
+            }
+        }
+        return maxPlatforms;
+        
+    }
+};
