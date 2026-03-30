@@ -1,0 +1,31 @@
+class Solution {
+private:
+    int f(int i, vector<int>& nums, int target, int sum,vector<vector<int>>&dp,int offset) {
+        // base case
+        if (i < 0) {
+            if (sum == target)
+                return 1;
+            else
+                return 0;
+        }
+
+        if(dp[i][sum+offset]!=-1)    return dp[i][sum+offset];
+
+        //+
+        int plus = f(i - 1, nums, target, sum + nums[i],dp,offset);
+
+        //-
+        int minus = f(i - 1, nums, target, sum - nums[i],dp,offset);
+
+        return dp[i][sum+offset] = plus + minus;
+    }
+
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int n = nums.size();
+        int totalSum = 0;
+        for(int x:nums) totalSum+=x;
+        vector<vector<int>>dp(n,vector<int>(2*totalSum+1,-1));
+        return f(n - 1, nums, target, 0,dp,totalSum);
+    }
+};
